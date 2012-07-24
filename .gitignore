@@ -1,0 +1,5 @@
+/auto-save-list/
+/semanticdb/
+/elpa/
+/session.*
+!*.el

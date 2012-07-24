@@ -1,0 +1,7 @@
+This is my personal configuration for GNU Emacs. While it does not
+attempt to be very useful for any other users, it is convenient to
+have it in an easily accessible location.
+
+Apart from files which have been marked to be available under some
+other license, you are free to use, copy, modify and distribute the
+configuration in parts or as a whole.
