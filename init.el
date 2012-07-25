@@ -55,7 +55,17 @@
   ;; Modifier keys
   (setq mac-option-modifier nil
         mac-command-modifier 'meta
-        x-select-enable-clipboard t)))
+        x-select-enable-clipboard t))
+
+ ;; Windows specific tweaks
+ ((eq window-system 'w32)
+  (if (fboundp 'tool-bar-mode)
+      (tool-bar-mode -1))
+  (if (fboundp 'menu-bar-mode)
+      (menu-bar-mode -1))
+  (if (member "Consolas" (font-family-list))
+      (set-face-attribute 'default nil :font "Consolas"))))
+
 
 ;; A customized C++ style. Likely needs some adjustment before being
 ;; fully useful.
