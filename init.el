@@ -69,12 +69,39 @@
   (if (member "Consolas" (font-family-list))
       (set-face-attribute 'default nil :font "Consolas"))))
 
+;; A kludge that implements "Smart tabs" similarly to how it
+;; is done at http://www.emacswiki.org/SmartTabs
+;;
+;; Main difference is that this is easy to insert into a
+;; custom CC mode style.
+(defun muep-cpp-indent-hook ()
+  ;; Since this function will call c-indent-line which will
+  ;; cause this function to be called again, it has a
+  ;; mechanism to avoid recursing infinitely.
+  (if (not (boundp 'already-in-muep-cpp-indent-hook))
+      (save-excursion
+        ;; Remove existing whitespace from line beginning
+        (beginning-of-line)
+        (while (looking-at "\t*\\( +\\)\t+")
+          (replace-match "" nil nil nil 1))
+        (let (;; Mark that we are already in this...
+              (already-in-muep-cpp-indent-hook t)
+              ;; And set tab width to a high value
+              (tab-width fill-column)
+              (c-basic-offset fill-column))
+          ;; And perform re-indentation in that environment
+          (c-indent-line)))))
 
 ;; A customized C++ style. Likely needs some adjustment before being
 ;; fully useful.
 (defconst muep-cpp-style
   '("gnu"
-    (c-offsets-alist . ((innamespace . 0)))))
+    (tab-width . 4)
+    (c-basic-offset . 4)
+    (cua-auto-tabify-rectangles . nil)
+    (c-special-indent-hook . muep-cpp-indent-hook)
+    (c-offsets-alist . ((innamespace . 0)))
+    (indent-tabs-mode . t)))
 
 (c-add-style "muep" muep-cpp-style)
 
