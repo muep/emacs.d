@@ -91,7 +91,11 @@
                 (tab-width fill-column)
                 (c-basic-offset fill-column))
             ;; And perform re-indentation in that environment
-            (c-indent-line))))))
+            (c-indent-line)))
+        ;; If point was left into the beginning of line, move
+        ;; forwards.
+        (while (looking-at "\t")
+          (forward-char)))))
 
 ;; A customized C++ style. Likely needs some adjustment before being
 ;; fully useful.
