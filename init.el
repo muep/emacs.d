@@ -79,18 +79,19 @@
   ;; cause this function to be called again, it has a
   ;; mechanism to avoid recursing infinitely.
   (if (not (boundp 'already-in-muep-cpp-indent-hook))
-      (save-excursion
-        ;; Remove existing whitespace from line beginning
-        (beginning-of-line)
-        (while (looking-at "\t*\\( +\\)\t+")
-          (replace-match "" nil nil nil 1))
-        (let (;; Mark that we are already in this...
-              (already-in-muep-cpp-indent-hook t)
-              ;; And set tab width to a high value
-              (tab-width fill-column)
-              (c-basic-offset fill-column))
-          ;; And perform re-indentation in that environment
-          (c-indent-line)))))
+      (progn
+        (save-excursion
+          ;; Remove existing whitespace from line beginning
+          (beginning-of-line)
+          (while (looking-at "\t*\\( +\\)\t+")
+            (replace-match "" nil nil nil 1))
+          (let (;; Mark that we are already in this...
+                (already-in-muep-cpp-indent-hook t)
+                ;; And set tab width to a high value
+                (tab-width fill-column)
+                (c-basic-offset fill-column))
+            ;; And perform re-indentation in that environment
+            (c-indent-line))))))
 
 ;; A customized C++ style. Likely needs some adjustment before being
 ;; fully useful.
