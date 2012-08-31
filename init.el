@@ -110,9 +110,12 @@
 
 (c-add-style "muep" muep-cpp-style)
 
-;; In c modes, remove trailing whitespace automatically
+;; Stuff specific to CC-mode
 (add-hook 'c-mode-common-hook
           (lambda ()
+            ;; Use C-c o to jump between headers and sources
+            (local-set-key (kbd "C-c o") 'ff-find-other-file)
+            ;; Remove trailing whitespace automatically
             (add-hook
              'before-save-hook
              'delete-trailing-whitespace nil t)))
