@@ -69,6 +69,10 @@
   (if (member "Consolas" (font-family-list))
       (set-face-attribute 'default nil :font "Consolas"))))
 
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward
+      uniquify-separator ":")
+
 ;; A kludge that implements "Smart tabs" similarly to how it
 ;; is done at http://www.emacswiki.org/SmartTabs
 ;;
