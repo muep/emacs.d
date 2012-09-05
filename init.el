@@ -27,6 +27,17 @@
 (global-set-key (kbd "C-c d") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c f") 'describe-face)
 
+;; Solarized setup
+(let ((tgt (expand-file-name "~/.emacs.d/solarized")))
+  (if (or (file-directory-p tgt)
+          (file-symlink-p tgt))
+
+      (progn
+        (add-to-list 'custom-theme-load-path tgt)
+        (condition-case nil
+            (load-theme 'solarized-light t)
+          (error nil)))))
+
 ;; Platform specific tweaks
 (cond
  ;; Mostly just GNU/Linux
