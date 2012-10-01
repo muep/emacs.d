@@ -109,7 +109,7 @@
             (c-indent-line)))
         ;; If point was left into the beginning of line, move
         ;; forwards.
-        (while (looking-at ""\\(\t\\| \\)"")
+        (while (looking-at "\\(\t\\| \\)")
           (forward-char)))))
 
 ;; A customized C++ style. Likely needs some adjustment before being
