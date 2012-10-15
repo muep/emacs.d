@@ -12,6 +12,11 @@
  '(fill-column 70)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(initial-scratch-message "
+;; Themes
+(load-theme 'solarized-dark t)
+(load-theme 'solarized-light t)
+")
  '(make-backup-files nil)
  '(show-trailing-whitespace t))
 (custom-set-faces
