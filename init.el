@@ -35,7 +35,7 @@
       (progn
         (add-to-list 'custom-theme-load-path tgt)
         (condition-case nil
-            (load-theme 'solarized-light t)
+            (load-theme 'solarized-dark t)
           (error nil)))))
 
 ;; Platform specific tweaks
