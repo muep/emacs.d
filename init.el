@@ -130,6 +130,28 @@
 
 (c-add-style "muep" muep-cpp-style)
 
+;; A simple "style" that disables the automatic indentation of emacs
+;; and sets some variables so that they suit editing a file that
+;; mostly uses tabs for indentation.
+(defconst manualtab-cpp-style
+  '("gnu"
+    (tab-width . 8)
+    (c-basic-offset . 8)
+    (c-syntactic-indentation . nil)
+    (indent-tabs-mode . t)))
+(c-add-style "manualtab" manualtab-cpp-style)
+
+;; A simple "style" that disables the automatic indentation of emacs
+;; and sets some variables so that they suit editing a file that
+;; mostly uses spaces for indentation.
+(defconst manualspc-cpp-style
+  '("gnu"
+    (tab-width . 8)
+    (c-basic-offset . 4)
+    (c-syntactic-indentation . nil)
+    (indent-tabs-mode . nil)))
+(c-add-style "manualspc" manualspc-cpp-style)
+
 ;; Stuff specific to CC-mode
 (add-hook 'c-mode-common-hook
           (lambda ()
