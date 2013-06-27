@@ -152,15 +152,14 @@
     (indent-tabs-mode . nil)))
 (c-add-style "manualspc" manualspc-cpp-style)
 
-;; Stuff specific to CC-mode
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            ;; Use C-c o to jump between headers and sources
-            (local-set-key (kbd "C-c o") 'ff-find-other-file)
-            ;; Remove trailing whitespace automatically
-            (add-hook
-             'before-save-hook
-             'delete-trailing-whitespace nil t)))
+(defun enable-ff-find-other-file ()
+  ;; Use C-c o to jump between headers and sources
+  (local-set-key (kbd "C-c o") 'ff-find-other-file))
+
+(defun enable-autoclear-whitespace ()
+  (add-hook 'before-save-hook 'delete-trailing-whitespace nil t))
+
+(add-hook 'c-mode-common-hook 'enable-ff-find-other-file)
 
 ;; Nicer auto fill for org mode
 (add-hook 'org-mode-hook
