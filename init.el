@@ -233,3 +233,15 @@
   (insert (muep-c-introheader))
   (if (headerishp (file-name-nondirectory (buffer-file-name)))
       (muep-insert-include-guards)))
+
+(defun muep-py2-boilerplate ()
+  "Insert a group of future imports for Python 2"
+  (interactive)
+  (insert
+   (mapconcat
+    'identity
+    '("from __future__ import absolute_import\n"
+      "from __future__ import division\n"
+      "from __future__ import print_function\n"
+      "from __future__ import unicode_literals\n")
+    "")))
