@@ -32,6 +32,13 @@
 (global-set-key (kbd "C-c d") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c f") 'describe-face)
 
+(defun disable-trailing-whitespace-display ()
+  (setq show-trailing-whitespace nil))
+
+;; Disable trailing whitespace display for special-mode children. This
+;; includes stuff like the git log view mode and suchlike.
+(add-hook 'special-mode-hook 'disable-trailing-whitespace-display)
+
 ;; Solarized setup
 (let ((tgt (expand-file-name "~/.emacs.d/solarized")))
   (if (or (file-directory-p tgt)
