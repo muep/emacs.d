@@ -124,18 +124,35 @@
         (while (looking-at "\\(\t\\| \\)")
           (forward-char)))))
 
+;; This used in multiple styles, so spelled out one
+;; time here.
+(defconst muep-c-offsets-alist
+  '((innamespace . 0)))
+
 ;; A customized C++ style. Likely needs some adjustment before being
 ;; fully useful.
 (defconst muep-cpp-style
-  '("gnu"
+  `("gnu"
     (tab-width . 4)
     (c-basic-offset . 4)
     (cua-auto-tabify-rectangles . nil)
     (c-special-indent-hook . muep-cpp-indent-hook)
-    (c-offsets-alist . ((innamespace . 0)))
+    (c-offsets-alist . ,muep-c-offsets-alist)
     (indent-tabs-mode . t)))
 
 (c-add-style "muep" muep-cpp-style)
+
+;; A variant of the above that uses 4-space basic indentation instead
+;; of one tab. Nicely this does not need the special indent hook that
+;; is used in the "normal" muep style.
+(defconst muep-cpp-style-4spc
+  `("gnu"
+    (tab-width . 8)
+    (c-basic-offset . 4)
+    (c-offsets-alist . ,muep-c-offsets-alist)
+    (indent-tabs-mode . nil)))
+
+(c-add-style "muep4" muep-cpp-style-4spc)
 
 ;; A simple "style" that disables the automatic indentation of emacs
 ;; and sets some variables so that they suit editing a file that
