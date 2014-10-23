@@ -258,6 +258,21 @@
   (if (headerishp (file-name-nondirectory (buffer-file-name)))
       (muep-insert-include-guards)))
 
+(defun muep-cpp-namespace-text (name)
+  (let ((nsn (if (< 0 (length name)) (concat name " ") "")))
+    (mapconcat 'identity
+               (list
+                "namespace " nsn "{\n"
+                "\n"
+                "} /* namespace " nsn "*/")
+               "")))
+
+(defun muep-insert-cpp-namespace (name)
+  "Insert a C++ namespace block"
+  (interactive "Mname:")
+  (insert (muep-cpp-namespace-text name))
+  (forward-line -2))
+
 (defun muep-py2-boilerplate ()
   "Insert a group of future imports for Python 2"
   (interactive)
