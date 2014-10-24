@@ -271,7 +271,7 @@
   "Insert a C++ namespace block"
   (interactive "Mname:")
   (insert (muep-cpp-namespace-text name))
-  (forward-line -2))
+  (forward-line -1))
 
 (defun muep-py2-boilerplate ()
   "Insert a group of future imports for Python 2"
