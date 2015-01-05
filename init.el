@@ -40,20 +40,21 @@
 (add-hook 'special-mode-hook 'disable-trailing-whitespace-display)
 
 ;; Solarized setup
-(let ((tgt (expand-file-name "~/.emacs.d/solarized")))
-  (if (or (file-directory-p tgt)
-          (file-symlink-p tgt))
-
-      (progn
-        (add-to-list 'custom-theme-load-path tgt)
-        (condition-case nil
-            (load-theme 'solarized-dark t)
-          (error nil)))))
+(defun try-solarized-setup ()
+  (let ((tgt (expand-file-name "~/.emacs.d/solarized")))
+    (if (or (file-directory-p tgt)
+            (file-symlink-p tgt))
+        (progn
+          (add-to-list 'custom-theme-load-path tgt)
+          (condition-case nil
+              (load-theme 'solarized-dark t)
+            (error nil))))))
 
 ;; Platform specific tweaks
 (cond
  ;; Mostly just GNU/Linux
  ((eq window-system 'x)
+  (try-solarized-setup)
   ;; Font selection
   (cond
    ((member "Terminus" (font-family-list))
