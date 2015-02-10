@@ -274,6 +274,20 @@
   (insert (muep-cpp-namespace-text name))
   (forward-line -1))
 
+(defun muep-c-ifdef-text (name)
+  (mapconcat 'identity
+             (list
+              "#ifdef " name "\n"
+              "\n"
+              "#endif /* defined " name " */")
+             ""))
+
+(defun muep-insert-c-ifdef (name)
+  "Insert a C ifdef block"
+  (interactive "Mname:")
+  (insert (muep-c-ifdef-text name))
+  (forward-line -1))
+
 (defun muep-py2-boilerplate ()
   "Insert a group of future imports for Python 2"
   (interactive)
