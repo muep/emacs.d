@@ -32,6 +32,10 @@
 (global-set-key (kbd "C-c d") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c f") 'describe-face)
 
+(global-set-key (kbd "<backtab>") (lambda ()
+                                    (interactive)
+                                    (c-indent-line-or-region -1)))
+
 (defun disable-trailing-whitespace-display ()
   (setq show-trailing-whitespace nil))
 
