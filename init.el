@@ -242,15 +242,11 @@
 ;; Other boilerplate generation
 (defun muep-c-introheader ()
   (let ((fname (file-relative-name (buffer-file-name)))
-        (myname (user-full-name))
         (datestr (format-time-string "%Y-%m-%d")))
     (mapconcat 'identity
                (list
                 "/*\n"
                 " * " fname "\n"
-                " *\n"
-                " * Created on " datestr " by\n"
-                " *   " myname "\n"
                 " *\n"
                 " * DESCRIBE THE PURPOSE OF THIS FILE HERE\n"
                 " */\n") "")))
