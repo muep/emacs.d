@@ -18,7 +18,10 @@
 (load-theme 'solarized-light t)
 ")
  '(make-backup-files nil)
- '(show-trailing-whitespace t))
+ '(show-trailing-whitespace t)
+ '(whitespace-style
+(quote
+ (face tabs spaces trailing lines space-before-tab newline indentation empty space-after-tab space-mark tab-mark))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
