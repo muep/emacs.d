@@ -259,6 +259,25 @@
   (if (headerishp (file-name-nondirectory (buffer-file-name)))
       (muep-insert-include-guards)))
 
+(defun muep-surround-region (start end)
+  "Insert a pair of strings so that they surround either point or
+   region, depending on if region is active"
+  (if (use-region-p)
+      (let ((orig-rb (region-beginning))
+            (orig-re (region-end)))
+          (goto-char orig-re)
+          (insert end)
+          (goto-char orig-rb)
+          (insert start)
+          (goto-char orig-rb)
+          (forward-line 1))
+      (let ((orig-pt (point)))
+        (insert start)
+        (insert "\n")
+        (insert end)
+        (goto-char orig-pt)
+        (forward-line 1))))
+
 (defun muep-cpp-namespace-text (name)
   (let ((nsn (if (< 0 (length name)) (concat name " ") "")))
     (mapconcat 'identity
@@ -274,19 +293,17 @@
   (insert (muep-cpp-namespace-text name))
   (forward-line -1))
 
-(defun muep-c-ifdef-text (name)
-  (mapconcat 'identity
-             (list
-              "#ifdef " name "\n"
-              "\n"
-              "#endif /* defined " name " */")
-             ""))
+(defun muep-c-ifdef-start (name)
+  (mapconcat 'identity (list "#ifdef " name "\n") ""))
+
+(defun muep-c-ifdef-end (name)
+  (mapconcat 'identity (list "#endif /* defined " name " */\n") ""))
 
 (defun muep-insert-c-ifdef (name)
   "Insert a C ifdef block"
   (interactive "Mname:")
-  (insert (muep-c-ifdef-text name))
-  (forward-line -1))
+  (muep-surround-region (muep-c-ifdef-start name)
+                        (muep-c-ifdef-end name)))
 
 (defun muep-py2-boilerplate ()
   "Insert a group of future imports for Python 2"
