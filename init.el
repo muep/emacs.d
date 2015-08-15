@@ -10,13 +10,9 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(fill-column 70)
+ '(frame-background-mode (quote dark))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
- '(initial-scratch-message "
-;; Themes
-(load-theme 'solarized-dark t)
-(load-theme 'solarized-light t)
-")
  '(make-backup-files nil)
  '(show-trailing-whitespace t)
  '(whitespace-style
@@ -54,7 +50,7 @@
         (progn
           (add-to-list 'custom-theme-load-path tgt)
           (condition-case nil
-              (load-theme 'solarized-dark t)
+              (load-theme 'solarized t)
             (error nil))))))
 
 ;; Platform specific tweaks
