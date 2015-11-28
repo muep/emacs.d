@@ -29,6 +29,13 @@
   (if (file-directory-p default-directory)
       (normal-top-level-add-subdirs-to-load-path)))
 
+(if (file-directory-p "~/.emacs.d/lisp/rust-mode/")
+    ;; There is a local rust-mode installation, so set up rust-mode
+    ;; to be autoloaded when necessary.
+    (progn
+      (autoload 'rust-mode "rust-mode" nil t)
+      (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))))
+
 ;; Keybindings for things for which there seems to be no convenient
 ;; default.
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
