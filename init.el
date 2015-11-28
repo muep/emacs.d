@@ -25,6 +25,10 @@
  ;; If there is more than one, they won't work right.
  )
 
+(let ((default-directory  "~/.emacs.d/lisp/"))
+  (if (file-directory-p default-directory)
+      (normal-top-level-add-subdirs-to-load-path)))
+
 ;; Keybindings for things for which there seems to be no convenient
 ;; default.
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
