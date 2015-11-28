@@ -3,3 +3,5 @@
 /elpa/
 /session.*
 !*.el
+/lisp/
+/solarized/
