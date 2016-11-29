@@ -10,7 +10,6 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(fill-column 70)
- '(frame-background-mode (quote dark))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(make-backup-files nil)
@@ -61,7 +60,14 @@
         (progn
           (add-to-list 'custom-theme-load-path tgt)
           (condition-case nil
-              (load-theme 'solarized t)
+              (progn
+                ;; Explicitly request the dark variant of
+                ;; solarized. The frame-background-mode is handled in
+                ;; a bit sensitive way so it also needs a bit special
+                ;; setup.
+                (setq-default frame-background-mode (quote dark))
+                (mapc 'frame-set-background-mode (frame-list))
+                (load-theme 'solarized t))
             (error nil))))))
 
 ;; Platform specific tweaks
