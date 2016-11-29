@@ -48,6 +48,10 @@
 ;; includes stuff like the git log view mode and suchlike.
 (add-hook 'special-mode-hook 'disable-trailing-whitespace-display)
 
+;; Also some others
+(add-hook 'compilation-mode-hook 'disable-trailing-whitespace-display)
+
+
 ;; Solarized setup
 (defun try-solarized-setup ()
   (let ((tgt (expand-file-name "~/.emacs.d/solarized")))
