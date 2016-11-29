@@ -70,11 +70,17 @@
                 (load-theme 'solarized t))
             (error nil))))))
 
+(if window-system
+    (progn
+      ;; Initialization for cases when we are in some window system
+      (try-solarized-setup))
+  ;; Could add items that are only required in terminal mode.
+  )
+
 ;; Platform specific tweaks
 (cond
  ;; Mostly just GNU/Linux
  ((eq window-system 'x)
-  (try-solarized-setup)
   ;; Font selection
   (cond
    ((member "Terminus" (font-family-list))
