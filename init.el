@@ -41,10 +41,6 @@
 (global-set-key (kbd "C-c d") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c f") 'describe-face)
 
-(global-set-key (kbd "<backtab>") (lambda ()
-                                    (interactive)
-                                    (c-indent-line-or-region -1)))
-
 (defun disable-trailing-whitespace-display ()
   (setq show-trailing-whitespace nil))
 
@@ -210,6 +206,15 @@
 (defun enable-autoclear-whitespace ()
   (add-hook 'before-save-hook 'delete-trailing-whitespace nil t))
 
+(defun muep-c-mode-keys ()
+    (define-key
+      c-mode-base-map
+      (kbd "<backtab>")
+      (lambda ()
+        (interactive)
+        (c-indent-line-or-region -1))))
+
+(add-hook 'c-initialization-hook 'muep-c-mode-keys)
 (add-hook 'c-mode-common-hook 'enable-ff-find-other-file)
 
 ;; Nicer auto fill for org mode
