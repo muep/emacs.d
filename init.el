@@ -347,3 +347,33 @@
       "from __future__ import print_function\n"
       "from __future__ import unicode_literals\n")
     "")))
+
+(defun muep-string-trim-left (s)
+  (replace-regexp-in-string "^[\s\t\n]" "" s))
+
+(defun muep-string-trim-right (s)
+  (replace-regexp-in-string "[\s\t\n]$" "" s))
+
+;; No idea why stuff like this does not seem to be built-in
+(defun muep-string-trim (s)
+  (muep-string-trim-left (muep-string-trim-right s)))
+
+(defun muep-insert-specfile-date ()
+  "Insert date as expected in Fedora changelogs"
+  (interactive)
+  (insert
+   (muep-string-trim
+    (shell-command-to-string "env LC_ALL=C date \"+%a %b %d %Y\""))))
+
+(defun muep-insert-reldate (n)
+  "Insert a date relative to today"
+  (interactive "Noffset:")
+  (let* ((now (current-time))
+         (then (time-add now (* n 86400))))
+    (insert
+     (format-time-string "%Y-%m-%d" then))))
+
+(defun muep-insert-today ()
+  "Insert the date of today"
+  (interactive)
+  (muep-insert-reldate 0))
