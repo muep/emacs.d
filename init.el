@@ -50,7 +50,7 @@
 
 ;; Also some others
 (add-hook 'compilation-mode-hook 'disable-trailing-whitespace-display)
-
+(add-hook 'diff-mode-hook 'disable-trailing-whitespace-display)
 
 ;; Solarized setup
 (defun try-solarized-setup ()
@@ -226,12 +226,6 @@
           (lambda ()
             (auto-fill-mode t)
             (setq fill-column 60)))
-
-;; Avoid showing trailing whitespace in diffs. In the diff mode, the
-;; trailing whitespace visualization does not really work very well.
-(add-hook 'diff-mode-hook
-          (lambda ()
-            (setq show-trailing-whitespace nil)))
 
 ;; Enable narrow-to-region. This is disabled by default to avoid
 ;; confusion.
