@@ -227,9 +227,11 @@
             (auto-fill-mode t)
             (setq fill-column 60)))
 
-;; Enable narrow-to-region. This is disabled by default to avoid
+;; Enable a bunch of functions that are disabled by default to avoid
 ;; confusion.
+(put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
 
 ;; Seems I can not find anything similar in
 ;; stock emacs, so let's roll our own
