@@ -365,7 +365,8 @@
   "Insert a date relative to today"
   (interactive "Noffset:")
   (let* ((now (current-time))
-         (then (time-add now (* n 86400))))
+         (dif (days-to-time n))
+         (then (time-add now dif)))
     (insert
      (format-time-string "%Y-%m-%d" then))))
 
