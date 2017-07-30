@@ -35,6 +35,13 @@
       (autoload 'rust-mode "rust-mode" nil t)
       (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))))
 
+(if (file-directory-p "~/.emacs.d/lisp/markdown-mode/")
+    ;; There is a local markdown-mode installation, so set up markdown-mode
+    ;; to be autoloaded when necessary.
+    (progn
+      (autoload 'markdown-mode "markdown-mode" nil t)
+      (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))))
+
 ;; Keybindings for things for which there seems to be no convenient
 ;; default.
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
