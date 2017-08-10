@@ -3,26 +3,17 @@
 ;; Personal emacs configuration for Joonas Sarajärvi
 ;; See README for more information.
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(fill-column 70)
- '(indent-tabs-mode nil)
- '(inhibit-startup-screen t)
- '(make-backup-files nil)
- '(show-trailing-whitespace t)
- '(whitespace-style
-(quote
- (face tabs spaces trailing lines space-before-tab newline indentation empty space-after-tab space-mark tab-mark))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; Load the Customize data from elsewhere
+
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file :noerror)
+
+(column-number-mode 1)
+(setq-default fill-column 70)
+(setq-default indent-tabs-mode nil)
+(setq inhibit-startup-screen t)
+(setq make-backup-files nil)
+(setq-default show-trailing-whitespace t)
 
 (let ((default-directory  "~/.emacs.d/lisp/"))
   (if (file-directory-p default-directory)
