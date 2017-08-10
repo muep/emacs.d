@@ -8,6 +8,11 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file :noerror)
 
+;; Set us up to use a package repository.
+(package-initialize)
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/"))
+
 (column-number-mode 1)
 (setq-default fill-column 70)
 (setq-default indent-tabs-mode nil)
@@ -19,25 +24,13 @@
   (if (file-directory-p default-directory)
       (normal-top-level-add-subdirs-to-load-path)))
 
-(if (file-directory-p "~/.emacs.d/lisp/rust-mode/")
-    ;; There is a local rust-mode installation, so set up rust-mode
-    ;; to be autoloaded when necessary.
-    (progn
-      (autoload 'rust-mode "rust-mode" nil t)
-      (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))))
-
-(if (file-directory-p "~/.emacs.d/lisp/markdown-mode/")
-    ;; There is a local markdown-mode installation, so set up markdown-mode
-    ;; to be autoloaded when necessary.
-    (progn
-      (autoload 'markdown-mode "markdown-mode" nil t)
-      (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))))
-
 ;; Keybindings for things for which there seems to be no convenient
 ;; default.
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-c d") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c f") 'describe-face)
+(if (functionp 'magit-status)
+    (global-set-key (kbd "C-x g") 'magit-status))
 
 (defun disable-trailing-whitespace-display ()
   (setq show-trailing-whitespace nil))
