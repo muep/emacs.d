@@ -58,6 +58,8 @@
 ;; Also some others
 (add-hook 'compilation-mode-hook 'disable-trailing-whitespace-display)
 (add-hook 'diff-mode-hook 'disable-trailing-whitespace-display)
+(add-hook 'term-mode-hook 'disable-trailing-whitespace-display)
+
 
 ;; Solarized setup
 (defun try-solarized-setup ()
