@@ -66,6 +66,7 @@
 (if window-system
     (progn
       ;; Initialization for cases when we are in some window system
+      (windmove-default-keybindings)
       (try-solarized-setup))
   ;; Could add items that are only required in terminal mode.
   )
