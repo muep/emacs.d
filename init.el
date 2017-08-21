@@ -13,6 +13,7 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
+;; A bunch of simple default overrides
 (column-number-mode 1)
 (setq-default fill-column 70)
 (setq-default indent-tabs-mode nil)
