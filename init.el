@@ -19,6 +19,7 @@
 (setq inhibit-startup-screen t)
 (setq make-backup-files nil)
 (setq-default show-trailing-whitespace t)
+(electric-indent-mode -1)
 
 (let ((default-directory  "~/.emacs.d/lisp/"))
   (if (file-directory-p default-directory)
