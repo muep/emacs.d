@@ -19,7 +19,7 @@ do
             exit "${exit_ok}"
             ;;
         *)
-            2>&1 usage
+            >&2 usage
             exit "${exit_usage}"
             ;;
     esac
