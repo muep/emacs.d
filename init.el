@@ -9,7 +9,9 @@
 (load custom-file :noerror)
 
 ;; Set us up to use a package repository.
-(package-initialize)
+(when (< emacs-major-version 27)
+  (package-initialize))
+
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
