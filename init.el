@@ -22,6 +22,7 @@
 (setq-default show-trailing-whitespace t)
 (electric-indent-mode -1)
 
+;; Add a convenient place for some local lisp code, if any
 (let ((default-directory  "~/.emacs.d/lisp/"))
   (if (file-directory-p default-directory)
       (normal-top-level-add-subdirs-to-load-path)))
