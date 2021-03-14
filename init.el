@@ -116,6 +116,13 @@
   (if (member "Consolas" (font-family-list))
       (set-face-attribute 'default nil :font "Consolas"))))
 
+;; Install paredit from MELPA to make use of this
+(if (functionp 'enable-paredit-mode)
+    (progn
+      (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+      (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+      (add-hook 'scheme-mode-hook           #'enable-paredit-mode)))
+
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward
       uniquify-separator ":")
