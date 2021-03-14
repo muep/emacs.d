@@ -52,6 +52,7 @@
 (add-hook 'compilation-mode-hook 'disable-trailing-whitespace-display)
 (add-hook 'diff-mode-hook 'disable-trailing-whitespace-display)
 (add-hook 'term-mode-hook 'disable-trailing-whitespace-display)
+(add-hook 'shell-mode-hook 'disable-trailing-whitespace-display)
 
 
 (if window-system
