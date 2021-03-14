@@ -130,6 +130,13 @@
       (add-hook 'lisp-interaction-mode-hook #'rainbow-delimiters-mode)
       (add-hook 'scheme-mode-hook           #'rainbow-delimiters-mode)))
 
+(if (functionp 'projectile-mode)
+    (progn
+      (if (functionp 'counsel-projectile-mode)
+          (counsel-projectile-mode)
+        (projectile-mode +1))
+      (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)))
+
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward
       uniquify-separator ":")
