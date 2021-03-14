@@ -48,29 +48,11 @@
 (add-hook 'term-mode-hook 'disable-trailing-whitespace-display)
 
 
-;; Solarized setup
-(defun try-solarized-setup ()
-  (let ((tgt (expand-file-name "~/.emacs.d/solarized")))
-    (if (or (file-directory-p tgt)
-            (file-symlink-p tgt))
-        (progn
-          (add-to-list 'custom-theme-load-path tgt)
-          (condition-case nil
-              (progn
-                ;; Explicitly request the dark variant of
-                ;; solarized. The frame-background-mode is handled in
-                ;; a bit sensitive way so it also needs a bit special
-                ;; setup.
-                (setq-default frame-background-mode (quote dark))
-                (mapc 'frame-set-background-mode (frame-list))
-                (load-theme 'solarized t))
-            (error nil))))))
-
 (if window-system
     (progn
       ;; Initialization for cases when we are in some window system
-      (windmove-default-keybindings)
-      (try-solarized-setup))
+      (load-theme 'tango-dark)
+      (windmove-default-keybindings))
   ;; Could add items that are only required in terminal mode.
   )
 
