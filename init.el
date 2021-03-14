@@ -123,6 +123,13 @@
       (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
       (add-hook 'scheme-mode-hook           #'enable-paredit-mode)))
 
+;; Install rainbow-delimiters from MELPA to make use of this
+(if (functionp 'rainbow-delimiters-mode)
+    (progn
+      (add-hook 'emacs-lisp-mode-hook       #'rainbow-delimiters-mode)
+      (add-hook 'lisp-interaction-mode-hook #'rainbow-delimiters-mode)
+      (add-hook 'scheme-mode-hook           #'rainbow-delimiters-mode)))
+
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward
       uniquify-separator ":")
