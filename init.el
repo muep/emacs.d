@@ -8,6 +8,8 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file :noerror)
 
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 ;; Set us up to use a package repository.
 (package-initialize)
 (add-to-list 'package-archives
@@ -32,8 +34,32 @@
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-c d") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c f") 'describe-face)
+(global-set-key (kbd "C-c a") 'org-agenda)
 (if (functionp 'magit-status)
     (global-set-key (kbd "C-x g") 'magit-status))
+
+(defun muep-cider-eval-and-test ()
+  (interactive)
+  (cider-eval-defun-at-point)
+  (cider-test-run-test))
+
+(defun muep-cider-eval-and-test-ns ()
+  (interactive)
+  (cider-load-buffer)
+  (cider-test-run-ns-tests nil))
+
+(defun muep-cider-keys ()
+  (define-key cider-mode-map (kbd "<f8> n") 'muep-cider-eval-and-test-ns)
+  (define-key cider-mode-map (kbd "<f8> t") 'muep-cider-eval-and-test))
+
+(add-hook 'cider-mode-hook 'muep-cider-keys)
+
+(add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'cider-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'cider-repl-mode-hook #'paredit-mode)
+(add-hook 'cider-mode-hook #'paredit-mode)
+(add-hook 'clojure-mode-hook #'paredit-mode)
 
 (defun disable-trailing-whitespace-display ()
   (setq show-trailing-whitespace nil))
@@ -114,14 +140,20 @@
 
 (if (functionp 'projectile-mode)
     (progn
+      (projectile-mode +1)
+      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
       (if (functionp 'counsel-projectile-mode)
-          (counsel-projectile-mode)
-        (projectile-mode +1))
-      (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)))
+          (progn
+            (counsel-projectile-mode)
+            (global-set-key (kbd "C-x C-b") 'counsel-switch-buffer))
+        (global-set-key (kbd "C-x C-b") 'buffer-menu))))
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward
       uniquify-separator ":")
+
+(require 'rg)
+(rg-enable-default-bindings)
 
 ;; A kludge that implements "Smart tabs" similarly to how it
 ;; is done at http://www.emacswiki.org/SmartTabs
@@ -374,3 +406,18 @@
   "Insert the date of today"
   (interactive)
   (muep-insert-reldate 0))
+
+(defun muep-kill-orglink-here ()
+  "Copy current location as an org mode link"
+  (interactive)
+  (let* ((path (buffer-file-name))
+         (file-name-only (file-name-nondirectory path))
+         (line (int-to-string (line-number-at-pos))))
+    (kill-new (mapconcat 'identity
+                         (list
+                          "[[file:" path "::" line "]"
+                          "[" file-name-only ":" line "]]")
+                         ""))))
+
+
+(require 'svelte-mode)
