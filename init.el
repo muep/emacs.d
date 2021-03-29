@@ -146,12 +146,13 @@
       (add-hook 'lisp-interaction-mode-hook #'rainbow-delimiters-mode)
       (add-hook 'scheme-mode-hook           #'rainbow-delimiters-mode)))
 
-(if (functionp 'projectile-mode)
-    (progn
-      (if (functionp 'counsel-projectile-mode)
-          (counsel-projectile-mode)
-        (projectile-mode +1))
-      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)))
+(when (functionp 'projectile-mode)
+    (projectile-mode +1)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+    (when (functionp 'counsel-projectile-mode)
+      (counsel-projectile-mode)
+      ;; This overrides the stock buffer change command
+      (global-set-key (kbd "C-x C-b") 'counsel-switch-buffer)))
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward
