@@ -11,7 +11,9 @@
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;; Set us up to use a package repository.
-(package-initialize)
+(when (< emacs-major-version 27)
+  (package-initialize))
+
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
@@ -38,6 +40,15 @@
 (if (functionp 'magit-status)
     (global-set-key (kbd "C-x g") 'magit-status))
 
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-switchb)
+
+;; Clojure
+(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'clojure-mode-hook #'paredit-mode)
+
+;; Cider
 (defun muep-cider-eval-and-test ()
   (interactive)
   (cider-eval-defun-at-point)
@@ -53,13 +64,12 @@
   (define-key cider-mode-map (kbd "<f8> t") 'muep-cider-eval-and-test))
 
 (add-hook 'cider-mode-hook 'muep-cider-keys)
-
-(add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'cider-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'cider-repl-mode-hook #'paredit-mode)
 (add-hook 'cider-mode-hook #'paredit-mode)
-(add-hook 'clojure-mode-hook #'paredit-mode)
+
+;; Cider REPL
+(add-hook 'cider-repl-mode-hook #'paredit-mode)
+(add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
 
 (defun disable-trailing-whitespace-display ()
   (setq show-trailing-whitespace nil))
@@ -72,6 +82,7 @@
 (add-hook 'compilation-mode-hook 'disable-trailing-whitespace-display)
 (add-hook 'diff-mode-hook 'disable-trailing-whitespace-display)
 (add-hook 'term-mode-hook 'disable-trailing-whitespace-display)
+(add-hook 'shell-mode-hook 'disable-trailing-whitespace-display)
 
 
 (if window-system
@@ -138,15 +149,13 @@
       (add-hook 'lisp-interaction-mode-hook #'rainbow-delimiters-mode)
       (add-hook 'scheme-mode-hook           #'rainbow-delimiters-mode)))
 
-(if (functionp 'projectile-mode)
-    (progn
-      (projectile-mode +1)
-      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-      (if (functionp 'counsel-projectile-mode)
-          (progn
-            (counsel-projectile-mode)
-            (global-set-key (kbd "C-x C-b") 'counsel-switch-buffer))
-        (global-set-key (kbd "C-x C-b") 'buffer-menu))))
+(when (functionp 'projectile-mode)
+    (projectile-mode +1)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+    (when (functionp 'counsel-projectile-mode)
+      (counsel-projectile-mode)
+      ;; This overrides the stock buffer change command
+      (global-set-key (kbd "C-x C-b") 'counsel-switch-buffer)))
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward
@@ -421,3 +430,25 @@
 
 
 (require 'svelte-mode)
+
+(defun buffer-line-count ()
+  "Return the number of lines in this buffer."
+  (count-lines (point-min) (point-max)))
+
+(defun goto-random-line ()
+  "Go to a random line in this buffer."
+  ; good for electrobibliomancy.
+  (interactive)
+  (goto-line (1+ (random (buffer-line-count)))))
+
+;; From https://emacsredux.com/blog/2013/06/21/eval-and-replace/
+(defun eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
+(global-set-key (kbd "C-c e") 'eval-and-replace)
