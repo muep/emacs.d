@@ -5,10 +5,14 @@
 
 ;; Load the Customize data from elsewhere
 
+(when (version< emacs-version "26.3")
+  ;; Seems to be required on older versions of Emacs. See
+  ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
+  ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=36725
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file :noerror)
-
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;; Set us up to use a package repository.
 (when (< emacs-major-version 27)
