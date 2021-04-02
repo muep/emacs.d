@@ -5,11 +5,19 @@
 
 ;; Load the Customize data from elsewhere
 
+(when (version< emacs-version "26.3")
+  ;; Seems to be required on older versions of Emacs. See
+  ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
+  ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=36725
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file :noerror)
 
 ;; Set us up to use a package repository.
-(package-initialize)
+(when (< emacs-major-version 27)
+  (package-initialize))
+
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
@@ -22,6 +30,7 @@
 (setq-default show-trailing-whitespace t)
 (electric-indent-mode -1)
 
+;; Add a convenient place for some local lisp code, if any
 (let ((default-directory  "~/.emacs.d/lisp/"))
   (if (file-directory-p default-directory)
       (normal-top-level-add-subdirs-to-load-path)))
@@ -31,8 +40,39 @@
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-c d") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c f") 'describe-face)
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-switchb)
 (if (functionp 'magit-status)
     (global-set-key (kbd "C-x g") 'magit-status))
+
+;; Clojure
+(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'clojure-mode-hook #'paredit-mode)
+
+;; Cider
+(defun muep-cider-eval-and-test ()
+  (interactive)
+  (cider-eval-defun-at-point)
+  (cider-test-run-test))
+
+(defun muep-cider-eval-and-test-ns ()
+  (interactive)
+  (cider-load-buffer)
+  (cider-test-run-ns-tests nil))
+
+(defun muep-cider-keys ()
+  (define-key cider-mode-map (kbd "<f8> n") 'muep-cider-eval-and-test-ns)
+  (define-key cider-mode-map (kbd "<f8> t") 'muep-cider-eval-and-test))
+
+(add-hook 'cider-mode-hook 'muep-cider-keys)
+(add-hook 'cider-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'cider-mode-hook #'paredit-mode)
+
+;; Cider REPL
+(add-hook 'cider-repl-mode-hook #'paredit-mode)
+(add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
 
 (defun disable-trailing-whitespace-display ()
   (setq show-trailing-whitespace nil))
@@ -45,31 +85,14 @@
 (add-hook 'compilation-mode-hook 'disable-trailing-whitespace-display)
 (add-hook 'diff-mode-hook 'disable-trailing-whitespace-display)
 (add-hook 'term-mode-hook 'disable-trailing-whitespace-display)
+(add-hook 'shell-mode-hook 'disable-trailing-whitespace-display)
 
-
-;; Solarized setup
-(defun try-solarized-setup ()
-  (let ((tgt (expand-file-name "~/.emacs.d/solarized")))
-    (if (or (file-directory-p tgt)
-            (file-symlink-p tgt))
-        (progn
-          (add-to-list 'custom-theme-load-path tgt)
-          (condition-case nil
-              (progn
-                ;; Explicitly request the dark variant of
-                ;; solarized. The frame-background-mode is handled in
-                ;; a bit sensitive way so it also needs a bit special
-                ;; setup.
-                (setq-default frame-background-mode (quote dark))
-                (mapc 'frame-set-background-mode (frame-list))
-                (load-theme 'solarized t))
-            (error nil))))))
 
 (if window-system
     (progn
       ;; Initialization for cases when we are in some window system
-      (windmove-default-keybindings)
-      (try-solarized-setup))
+      (load-theme 'tango-dark)
+      (windmove-default-keybindings))
   ;; Could add items that are only required in terminal mode.
   )
 
@@ -114,6 +137,28 @@
       (menu-bar-mode -1))
   (if (member "Consolas" (font-family-list))
       (set-face-attribute 'default nil :font "Consolas"))))
+
+;; Install paredit from MELPA to make use of this
+(if (functionp 'enable-paredit-mode)
+    (progn
+      (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+      (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+      (add-hook 'scheme-mode-hook           #'enable-paredit-mode)))
+
+;; Install rainbow-delimiters from MELPA to make use of this
+(if (functionp 'rainbow-delimiters-mode)
+    (progn
+      (add-hook 'emacs-lisp-mode-hook       #'rainbow-delimiters-mode)
+      (add-hook 'lisp-interaction-mode-hook #'rainbow-delimiters-mode)
+      (add-hook 'scheme-mode-hook           #'rainbow-delimiters-mode)))
+
+(when (functionp 'projectile-mode)
+    (projectile-mode +1)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+    (when (functionp 'counsel-projectile-mode)
+      (counsel-projectile-mode)
+      ;; This overrides the stock buffer change command
+      (global-set-key (kbd "C-x C-b") 'counsel-switch-buffer)))
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward
@@ -374,3 +419,25 @@
   "Insert the date of today"
   (interactive)
   (muep-insert-reldate 0))
+
+(defun buffer-line-count ()
+  "Return the number of lines in this buffer."
+  (count-lines (point-min) (point-max)))
+
+(defun goto-random-line ()
+  "Go to a random line in this buffer."
+  ; good for electrobibliomancy.
+  (interactive)
+  (goto-line (1+ (random (buffer-line-count)))))
+
+;; From https://emacsredux.com/blog/2013/06/21/eval-and-replace/
+(defun eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
+(global-set-key (kbd "C-c e") 'eval-and-replace)
