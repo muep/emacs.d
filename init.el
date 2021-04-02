@@ -370,3 +370,10 @@
   "Insert the date of today"
   (interactive)
   (muep-insert-reldate 0))
+
+(setenv "GOROOT" "/usr/lib/sdk/golang")
+(setenv "PATH" (concat (getenv "PATH") ":/usr/lib/sdk/golang/bin"))
+
+(setenv "JAVA_HOME" "/usr/lib/sdk/openjdk/jvm/java-8-openjdk")
+(setenv "PATH" (concat (getenv "PATH") ":/usr/lib/sdk/openjdk8/bin"))
+(setenv "PATH" (concat (getenv "PATH") ":/home/muep/opt/clojure/bin"))
