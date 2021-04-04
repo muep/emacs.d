@@ -3,14 +3,14 @@
 ;; Personal emacs configuration for Joonas Sarajärvi
 ;; See README for more information.
 
-;; Load the Customize data from elsewhere
-
 (when (version< emacs-version "26.3")
   ;; Seems to be required on older versions of Emacs. See
   ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
   ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=36725
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
+;; Load the Customize data from elsewhere, to avoid making them change
+;; this init file.
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file :noerror)
 
