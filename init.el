@@ -101,11 +101,17 @@
  ;; Mostly just GNU/Linux
  ((eq window-system 'x)
   ;; Font selection
-  (cond
-   ((member "Terminus" (font-family-list))
-    (set-face-attribute 'default nil :font "Terminus-9"))
-   ((member "DejaVu Sans Mono" (font-family-list))
-    (set-face-attribute 'default nil :font "DejaVu Sans Mono-9")))
+  (let* ((family-name (cond
+                       ((member "Terminus" (font-family-list))
+                        "Terminus")
+                       ((member "DejaVu Sans Mono" (font-family-list))
+                        "DejaVu Sans Mono")))
+         (font-size (if (< (x-display-pixel-width) 1025)
+                        8
+                      9))
+         (font-param (format "%s-%d" family-name font-size)))
+    (set-face-attribute 'default nil
+                        :font font-param))
 
   ;; Remove the toolbar from top of the X frames:
   (if (fboundp 'tool-bar-mode)
