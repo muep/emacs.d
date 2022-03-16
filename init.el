@@ -92,21 +92,27 @@
 (if window-system
     (progn
       ;; Initialization for cases when we are in some window system
-      (load-theme 'tango-dark)
+      ;(load-theme 'tango-dark)
       (windmove-default-keybindings))
   ;; Could add items that are only required in terminal mode.
   )
+
+
+(defun select-default-font ()
+  (let ((available-fonts (font-family-list))
+        (preferred-fonts '(("Hack" . "Hack-10")
+                           ("DejaVu Sans Mono" . "DejaVu Sans Mono-10")
+                           ("Liberation Mono" . "Liberation Mono-10"))))
+    (cdar (seq-filter (lambda (font)
+                        (member (car font) available-fonts))
+                      preferred-fonts))))
 
 ;; Platform specific tweaks
 (cond
  ;; Mostly just GNU/Linux
  ((eq window-system 'x)
   ;; Font selection
-  (cond
-   ((member "Terminus" (font-family-list))
-    (set-face-attribute 'default nil :font "Terminus-9"))
-   ((member "DejaVu Sans Mono" (font-family-list))
-    (set-face-attribute 'default nil :font "DejaVu Sans Mono-9")))
+  (set-face-attribute 'default nil :font (select-default-font))
 
   ;; Remove the toolbar from top of the X frames:
   (if (fboundp 'tool-bar-mode)
@@ -420,18 +426,45 @@
   (interactive)
   (muep-insert-reldate 0))
 
+
+
 (defun muep-kill-orglink-here ()
   "Copy current location as an org mode link"
   (interactive)
   (let* ((path (buffer-file-name))
          (file-name-only (file-name-nondirectory path))
-         (line (int-to-string (line-number-at-pos))))
+         (line (int-to-string (line-number-at-pos)))
+         (query (if (region-active-p)
+                    (buffer-substring-no-properties (region-beginning)
+                                                    (region-end))
+                  line))
+         (link-text (if (region-active-p)
+                        query
+                      (mapconcat 'identity (list file-name-only ":" line) ""))))
     (kill-new (mapconcat 'identity
                          (list
-                          "[[file:" path "::" line "]"
-                          "[" file-name-only ":" line "]]")
+                          "[[file:" path "::" query "]"
+                          "[" link-text "]]")
                          ""))))
 
+(defun muep-kill-orglink-thisfile ()
+  "Copy current location as an org mode link"
+  (interactive)
+  (let* ((path (buffer-file-name))
+         (file-name-only (file-name-nondirectory path))
+         (line (int-to-string (line-number-at-pos)))
+         (query (if (region-active-p)
+                    (buffer-substring-no-properties (region-beginning)
+                                                    (region-end))
+                  line))
+         (link-text (if (region-active-p)
+                        query
+                      (mapconcat 'identity (list file-name-only ":" line)))))
+    (kill-new (mapconcat 'identity
+                         (list
+                          "[[file:" path "::" query "]"
+                          "[" link-text "]]")
+                         ""))))
 
 (require 'svelte-mode)
 
