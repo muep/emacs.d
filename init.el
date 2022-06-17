@@ -87,11 +87,15 @@
 (add-hook 'term-mode-hook 'disable-trailing-whitespace-display)
 (add-hook 'shell-mode-hook 'disable-trailing-whitespace-display)
 
+(defun setup-theme ()
+  (setq modus-themes-bold-constructs t)
+  (setq modus-themes-paren-match '(bold))
+  (load-theme 'modus-vivendi t))
 
 (if window-system
     (progn
       ;; Initialization for cases when we are in some window system
-      (load-theme 'tango-dark)
+      (setup-theme)
       (windmove-default-keybindings))
   ;; Could add items that are only required in terminal mode.
   )
