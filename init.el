@@ -3,14 +3,14 @@
 ;; Personal emacs configuration for Joonas Sarajärvi
 ;; See README for more information.
 
-;; Load the Customize data from elsewhere
-
 (when (version< emacs-version "26.3")
   ;; Seems to be required on older versions of Emacs. See
   ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
   ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=36725
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
+;; Load the Customize data from elsewhere, to avoid making them change
+;; this init file.
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file :noerror)
 
@@ -47,6 +47,10 @@
 (global-set-key "\C-cb" 'org-switchb)
 (if (functionp 'magit-status)
     (global-set-key (kbd "C-x g") 'magit-status))
+
+(when (functionp 'org-roam-version)
+  (setq org-roam-directory (file-truename "~/org/zk"))
+  (org-roam-db-autosync-mode))
 
 ;; Clojure
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
@@ -88,11 +92,15 @@
 (add-hook 'term-mode-hook 'disable-trailing-whitespace-display)
 (add-hook 'shell-mode-hook 'disable-trailing-whitespace-display)
 
+(defun setup-theme ()
+  (setq modus-themes-bold-constructs t)
+  (setq modus-themes-paren-match '(bold))
+  (load-theme 'modus-vivendi t))
 
 (if window-system
     (progn
       ;; Initialization for cases when we are in some window system
-      ;(load-theme 'tango-dark)
+      (setup-theme)
       (windmove-default-keybindings))
   ;; Could add items that are only required in terminal mode.
   )
