@@ -47,6 +47,10 @@
 (if (functionp 'magit-status)
     (global-set-key (kbd "C-x g") 'magit-status))
 
+(when (functionp 'org-roam-version)
+  (setq org-roam-directory (file-truename "~/org/zk"))
+  (org-roam-db-autosync-mode))
+
 ;; Clojure
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'clojure-mode-hook #'paredit-mode)
