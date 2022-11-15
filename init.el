@@ -132,7 +132,7 @@
  ((eq window-system 'ns)
   ;; Font selection
   (if (member "Menlo" (font-family-list))
-      (set-face-attribute 'default nil :font "Menlo-10"))
+      (set-face-attribute 'default nil :font "Menlo-11"))
 
   ;; Avoid toolbar, but menubar is ok since the space is always used
   ;; in OS X.
