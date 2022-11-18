@@ -47,7 +47,17 @@
 (if (functionp 'magit-status)
     (global-set-key (kbd "C-x g") 'magit-status))
 
+(defun underscore-to-dash (txt)
+  (string-replace "_" "-" txt))
+
 (when (functionp 'org-roam-version)
+  (advice-add 'org-roam-node-slug :filter-return #'underscore-to-dash)
+
+  (setq org-roam-capture-templates
+        '(("d" "default" plain "%?" :target
+           (file+head "${slug}.org"
+                      "#+title: ${title}\n")
+           :unnarrowed t)))
   (setq org-roam-directory (file-truename "~/org/zk"))
   (org-roam-db-autosync-mode))
 
