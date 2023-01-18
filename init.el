@@ -124,22 +124,21 @@
   ;; Could add items that are only required in terminal mode.
   )
 
+(defun select-default-font ()
+  (let ((available-fonts (font-family-list))
+        (preferred-fonts '(("Hack" . "Hack-10")
+                           ("DejaVu Sans Mono" . "DejaVu Sans Mono-10")
+                           ("Liberation Mono" . "Liberation Mono-10"))))
+    (cdar (seq-filter (lambda (font)
+                        (member (car font) available-fonts))
+                      preferred-fonts))))
+
 ;; Platform specific tweaks
 (cond
  ;; Mostly just GNU/Linux
  ((eq window-system 'x)
   ;; Font selection
-  (let* ((family-name (cond
-                       ((member "Terminus" (font-family-list))
-                        "Terminus")
-                       ((member "DejaVu Sans Mono" (font-family-list))
-                        "DejaVu Sans Mono")))
-         (font-size (if (< (x-display-pixel-width) 1025)
-                        8
-                      9))
-         (font-param (format "%s-%d" family-name font-size)))
-    (set-face-attribute 'default nil
-                        :font font-param))
+  (set-face-attribute 'default nil :font (select-default-font))
 
   ;; Remove the toolbar from top of the X frames:
   (if (fboundp 'tool-bar-mode)
