@@ -51,6 +51,9 @@
   (string-replace "_" "-" txt))
 
 (when (functionp 'org-roam-version)
+  (require 'org)
+  (require 'org-roam)
+  (require 'org-roam-dailies)
   ;; Keybinding suggestions from
   ;; https://lucidmanager.org/productivity/taking-notes-with-emacs-org-mode-and-org-roam/
   (global-set-key (kbd "C-c n f") 'org-roam-node-find)
