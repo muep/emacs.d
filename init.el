@@ -56,7 +56,7 @@
   (global-set-key (kbd "C-c n f") 'org-roam-node-find)
   (global-set-key (kbd "C-c n r") 'org-roam-node-random)
   (define-key org-mode-map (kbd "C-c n i") 'org-roam-node-insert)
-  (define-key org-mode-map (kbd "C-c n o") 'org-roam-id-get-create)
+  (define-key org-mode-map (kbd "C-c n o") 'org-id-get-create)
   (define-key org-mode-map (kbd "C-c n t") 'org-roam-tag-add)
   (define-key org-mode-map (kbd "C-c n a") 'org-roam-alias-add)
   (define-key org-mode-map (kbd "C-c n l") 'org-roam-buffer-toggle)
