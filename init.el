@@ -40,6 +40,7 @@
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-c d") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c f") 'describe-face)
+(global-set-key (kbd "M--") 'xref-find-references)
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cc" 'org-capture)
