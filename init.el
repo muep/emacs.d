@@ -14,6 +14,8 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file :noerror)
 
+(require 'package)
+
 ;; Set us up to use a package repository.
 (when (< emacs-major-version 27)
   (package-initialize))
