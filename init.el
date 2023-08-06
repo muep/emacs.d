@@ -23,6 +23,9 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
+;; (add-to-list 'package-archives
+;;              '("melpa" . "https://melpa.org/packages/"))
+
 ;; A bunch of simple default overrides
 (column-number-mode 1)
 (setq-default fill-column 70)
