@@ -1,6 +1,9 @@
 ;; Same as current org default, but maybe better be explicit
 (setq org-directory "~/org")
-(setq org-agenda-files '("inbox.org" "work.org"))
+(setq org-agenda-files '("agenda/inbox.org"
+                         "agenda/code.org"
+                         "agenda/done.org"))
+
 (setq org-roam-directory (file-truename "~/org/zk"))
 
 (defun underscore-to-dash (txt)
