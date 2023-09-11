@@ -151,21 +151,15 @@
   (set-face-attribute 'default nil :font (select-default-font))
 
   ;; Remove the toolbar from top of the X frames:
-  (if (fboundp 'tool-bar-mode)
-      (tool-bar-mode -1))
-  (if (fboundp 'menu-bar-mode)
-      (menu-bar-mode -1)))
-
  ;; On OS X the window system is called ns
  ((eq window-system 'ns)
   ;; Font selection
   (if (member "Menlo" (font-family-list))
       (set-face-attribute 'default nil :font "Menlo-11"))
 
-  ;; Avoid toolbar, but menubar is ok since the space is always used
-  ;; in OS X.
+  ;; In MacOS, is kind of makes sense to keep the menu bar
   (if (fboundp 'tool-bar-mode)
-      (tool-bar-mode -1))
+      (menu-bar-mode 1))
 
   ;; Modifier keys
   (setq mac-option-modifier nil
@@ -174,10 +168,6 @@
 
  ;; Windows specific tweaks
  ((eq window-system 'w32)
-  (if (fboundp 'tool-bar-mode)
-      (tool-bar-mode -1))
-  (if (fboundp 'menu-bar-mode)
-      (menu-bar-mode -1))
   (if (member "Consolas" (font-family-list))
       (set-face-attribute 'default nil :font "Consolas"))))
 
