@@ -1,8 +1,6 @@
 ;; Same as current org default, but maybe better be explicit
 (setq org-directory "~/org")
-(setq org-agenda-files '("agenda/inbox.org"
-                         "agenda/code.org"
-                         "agenda/done.org"))
+(setq org-agenda-files '("~/org/agenda"))
 
 (setq org-roam-directory (file-truename "~/org/zk"))
 
