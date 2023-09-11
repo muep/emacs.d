@@ -1,4 +1,5 @@
 (use-package paredit
+  :diminish
   :ensure t
   :hook ((emacs-lisp-mode . enable-paredit-mode)
          (lisp-interaction-mode . enable-paredit-mode)
