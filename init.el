@@ -8,10 +8,11 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file :noerror)
 
-;; Set us up to use Melpa as the package repository. Emacs nowadays
-;; comes with some GNU-blessed package archives preconfigured, but it
-;; seems safer to stick with just one archive.
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")))
+;; Set us up to use Melpa as the package repository. At least some
+;; packages expect the GNU archive to be in use, so that is included
+;; as well.
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")))
 
 ;; A bunch of simple default overrides
 (column-number-mode 1)
