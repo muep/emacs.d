@@ -1,3 +1,7 @@
+; (require 'uniquify)
+; (setq uniquify-buffer-name-style 'post-forward
+;       uniquify-separator ":")
+
 (use-package projectile
   :ensure t
   :bind-keymap ("C-c p" . projectile-command-map)
