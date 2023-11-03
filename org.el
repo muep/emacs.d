@@ -1,8 +1,7 @@
 ;; Same as current org default, but maybe better be explicit
-(setq org-directory "~/org")
-(setq org-agenda-files '("~/org/agenda"))
-
-(setq org-roam-directory (file-truename "~/org/zk"))
+(setq org-directory (file-truename (concat (file-name-parent-directory user-emacs-directory) "/org")))
+(setq org-agenda-files (list (file-truename (concat org-directory "/agenda"))))
+(setq org-roam-directory (file-truename (concat org-directory "/zk")))
 
 (defun underscore-to-dash (txt)
   (string-replace "_" "-" txt))
