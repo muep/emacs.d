@@ -1,6 +1,9 @@
 (setq modus-themes-bold-constructs t)
 (setq modus-themes-paren-match '(bold))
-(load-theme 'modus-vivendi t)
+
+(if (string-match "work" user-init-file)
+    (load-theme 'modus-operandi t)
+  (load-theme 'modus-vivendi t))
 
 (defun select-default-font ()
   (let ((available-fonts (font-family-list))
