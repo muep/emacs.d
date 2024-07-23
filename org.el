@@ -3,6 +3,20 @@
 (setq org-agenda-files (list (file-truename (concat org-directory "/agenda"))))
 (setq org-roam-directory (file-truename (concat org-directory "/zk")))
 
+(if (string-match "work" user-init-file)
+    (setq filename-template )
+  (load-theme 'modus-vivendi t))
+
+(setq org-roam-dailies-filename-pattern
+      (if (string-match "work" user-init-file)
+          "work-%<%Y-%m-%d>.org"
+        "%<%Y-%m-%d>.org"))
+
+(setq org-roam-dailies-template-source
+      (if (string-match "work" user-init-file)
+          "%[work-template.org]"
+        "%[template.org]"))
+
 (defun underscore-to-dash (txt)
   (string-replace "_" "-" txt))
 
@@ -30,6 +44,11 @@
            (file+head "${slug}.org"
                       "#+title: ${title}\n")
            :unnarrowed t)))
+  (setq org-roam-dailies-capture-templates
+        `(("d" "default" entry "* %?" :target
+           (file+head
+            ,org-roam-dailies-filename-pattern
+            ,(concat "#+title: %<%Y-%m-%d>\n" org-roam-dailies-template-source)))))
   (org-roam-db-autosync-mode))
 
 (use-package org-roam-dailies
