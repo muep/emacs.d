@@ -3,10 +3,6 @@
 (setq org-agenda-files (list (file-truename (concat org-directory "/agenda"))))
 (setq org-roam-directory (file-truename (concat org-directory "/zk")))
 
-(if (string-match "work" user-init-file)
-    (setq filename-template )
-  (load-theme 'modus-vivendi t))
-
 (setq org-roam-dailies-filename-pattern
       (if (string-match "work" user-init-file)
           "work-%<%Y-%m-%d>.org"
