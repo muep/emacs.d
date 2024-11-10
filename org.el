@@ -3,24 +3,14 @@
 (setq org-agenda-files (list (file-truename (concat org-directory "/agenda"))))
 (setq org-roam-directory (file-truename (concat org-directory "/zk")))
 
-(setq org-roam-dailies-filename-pattern
-      (if (string-match "work" user-init-file)
-          "work-%<%Y-%m-%d>.org"
-        "%<%Y-%m-%d>.org"))
-
-(setq org-roam-dailies-template-source
-      (if (string-match "work" user-init-file)
-          "%[work-template.org]"
-        "%[template.org]"))
-
 (defun underscore-to-dash (txt)
   (string-replace "_" "-" txt))
 
 (use-package org
   :defer t
   :bind (:map global-map
-              ("C-c a" . org-agenda))
-  )
+              ("C-c a" . org-agenda)))
+
 (use-package org-roam
   :defer t
   :ensure t
@@ -41,10 +31,19 @@
                       "#+title: ${title}\n")
            :unnarrowed t)))
   (setq org-roam-dailies-capture-templates
-        `(("d" "default" entry "* %?" :target
-           (file+head
-            ,org-roam-dailies-filename-pattern
-            ,(concat "#+title: %<%Y-%m-%d>\n" org-roam-dailies-template-source)))))
+        (if (string-match "work" user-init-file)
+            `(("w" "work" entry "* %?" :target
+               (file+head
+                "work-%<%Y-%m-%d>.org"
+                ,(concat "#+title: work-%<%Y-%m-%d>\n" "%[work-template.org]"))))
+          `(("d" "default" entry "* %?" :target
+             (file+head
+              "%<%Y-%m-%d>.org"
+              ,(concat "#+title: %<%Y-%m-%d>\n" "%[template.org]")))
+            ("m" "music" entry "* %?" :target
+             (file+head
+              "music-%<%Y-%m-%d>.org"
+              ,(concat "#+title: music-%<%Y-%m-%d>\n" "%[music-template.org]"))))))
   (org-roam-db-autosync-mode))
 
 (use-package org-roam-dailies
