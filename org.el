@@ -49,3 +49,6 @@
 (use-package org-roam-dailies
   :defer t
   :bind-keymap (("C-c n d" . org-roam-dailies-map)))
+
+(use-package org-roam-ui
+  :ensure t)
