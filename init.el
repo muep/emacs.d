@@ -28,6 +28,7 @@
 
 (load-file (expand-file-name "ivy.el" user-emacs-directory))
 (load-file (expand-file-name "magit.el" user-emacs-directory))
+(load-file (expand-file-name "markdown.el" user-emacs-directory))
 (load-file (expand-file-name "org.el" user-emacs-directory))
 (load-file (expand-file-name "lisps.el" user-emacs-directory))
 ; (load-file (expand-file-name "cc.el" user-emacs-directory))
