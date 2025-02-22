@@ -4,6 +4,9 @@
 (use-package diminish
   :ensure t)
 
+(use-package rg
+  :ensure t)
+
 (use-package projectile
   :diminish
   :ensure t
