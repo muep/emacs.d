@@ -32,7 +32,7 @@
 (load-file (expand-file-name "org.el" user-emacs-directory))
 (load-file (expand-file-name "lisps.el" user-emacs-directory))
 ; (load-file (expand-file-name "cc.el" user-emacs-directory))
-; (load-file (expand-file-name "clojure.el" user-emacs-directory))
+(load-file (expand-file-name "clojure.el" user-emacs-directory))
 ; (load-file (expand-file-name "trailing-whitespace.el" user-emacs-directory))
 
 ;; Keybindings for things for which there seems to be no convenient
