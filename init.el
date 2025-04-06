@@ -30,6 +30,7 @@
 (load-file (expand-file-name "magit.el" user-emacs-directory))
 (load-file (expand-file-name "markdown.el" user-emacs-directory))
 (load-file (expand-file-name "org.el" user-emacs-directory))
+(load-file (expand-file-name "gptel.el" user-emacs-directory))
 (load-file (expand-file-name "lisps.el" user-emacs-directory))
 ; (load-file (expand-file-name "cc.el" user-emacs-directory))
 (load-file (expand-file-name "clojure.el" user-emacs-directory))
